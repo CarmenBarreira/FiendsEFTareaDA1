@@ -12,6 +12,7 @@ namespace Test
         private IDataAccess<Agenda> dataAccessAgenda;
         private IDataAccess<User> dataAccessUsuario;
         private const string NOMBRE_USUARIO = "Owner";
+        private const string NOMBRE_USUARIO_2 = "User2";
         private const string NOMBRE_AGENDA = "Agenda";
         private const string NOMBRE_AGENDA_2 = "Agenda_2";
 
@@ -89,6 +90,51 @@ namespace Test
         [TestMethod]
         public void AgregarDosAgendasAUserYOtroUserAUnaDeLasAgendas()
         {
+            List<User> usuarios = new List<User>();
+            User user2 = new User()
+            {
+                Name = NOMBRE_USUARIO_2,
+                Age = 22,
+            };
+            usuarios.Add(user2);
+
+            Agenda agenda1 = new Agenda()
+            {
+                Name = NOMBRE_AGENDA,
+                Owner = new User()
+                {
+                    Age = 99,
+                    Name = NOMBRE_USUARIO,
+                    Agendas = new List<Agenda>()
+                },
+                Contacts = usuarios
+            };
+
+            Agenda agenda2 = new Agenda()
+            {
+                Name = NOMBRE_AGENDA_2,
+                Owner = new User()
+                {
+                    Age = 99,
+                    Name = NOMBRE_USUARIO,
+                    Agendas = new List<Agenda>()
+                },
+                Contacts = new List<User>()
+            };
+
+            List<Agenda> agendas = new List<Agenda>();
+            agendas.Add(agenda1);
+            agendas.Add(agenda2);
+
+            User user1 = new User()
+            {
+                Name = NOMBRE_USUARIO,
+                Age = 22,
+                Agendas = agendas
+            };
+            dataAccessUsuario.Add(user1);
+      
+
         }
     }
 }
